@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landon's Engineering Projects</title>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useMemo}=React;
+const P=[
+{id:1,name:'Belt-Driven Power Transmission System',diff:2,weeks:'2-3',cost:'$15-20',imp:6,tag:'Measure mechanical advantage and efficiency losses',learn:['Mechanical advantage','Friction losses','Energy transfer','Measurement','Data analysis'],mit:'Shows real mechanical losses, scientific method, quantitative measurements beat pretty designs',mat:['MRLESS Pulley/Belt Kit','Arduino + force sensor','Aluminum angle stock','Wood base','Bolts and bearings'],phases:[{t:'Week 1: Design',d:['Sketch design, identify pulley mounting points','CAD sketch in Fusion 360 (free for students)','Understand mechanical advantage ratios','Document: Save CAD files']},{t:'Week 2: Build',d:['Cut/assemble frame','Mount pulleys, thread belts','Mount load cell sensor and Arduino circuit','Test for smooth operation']},{t:'Week 3: Testing',d:['Measure mechanical advantage vs different pulley ratios','Calculate efficiency percentage','Document findings, identify friction sources','Complete efficiency curve']}],metrics:['Measurements within 5% of theoretical','Efficiency for 3+ configurations','Photo/video documentation','Written analysis'],finding:'Using 1:3 pulley ratio, theoretical mechanical advantage = 3.0. Testing showed 2.7, representing 90% actual efficiency.'},
+{id:2,name:'Gear Ratio Optimization and Power Transmission',diff:3,weeks:'3-4',cost:'$20-30',imp:7,tag:'Design multi-stage gear system, optimize for efficiency',learn:['Gear ratios','Multi-stage systems','Efficiency calculations','Load analysis','Design constraints'],mit:'Systems thinking across multiple constraints, real design trade-offs, bridges design theory to real-world constraints',mat:['LEGO Technic Gear and Motor Kit','Arduino + RPM sensor','Torque measurement setup','3D printer access','Small weights'],phases:[{t:'Week 1: Design',d:['Research multi-stage gear systems','Calculate theoretical gear ratios','Sketch CAD assembly','Show all 3 stages with tooth counts']},{t:'Week 2: Build',d:['Assemble gear train on frame','Mount motor, connect Arduino RPM sensor','Test rotation, verify smooth operation','Target: smooth 100+ RPM output']},{t:'Weeks 3-4: Testing',d:['Measure output speed under no-load','Add loads incrementally, measure speed drop-off','Calculate efficiency at different load points','Create efficiency curve']}],metrics:['Output RPM within 10% of predicted','Efficiency greater than 75% at rated load','Smooth operation at all speeds','Complete load analysis'],finding:'Theory predicted 4:1 advantage, actual was 3.8:1. The 5% loss is from bearing friction and gear tooth engagement.'},
+{id:3,name:'Precision Mechanical Arm with Feedback Control',diff:4,weeks:'4-6',cost:'$60-100',imp:8,tag:'Robotic arm controlled by Arduino with position feedback',learn:['Servo control','Feedback systems','CAD to hardware workflow','Multi-disciplinary integration','Position accuracy'],mit:'Multi-disciplinary (mechanical + electrical + programming), feedback control is essential, shows full CAD to controls workflow',mat:['Arduino Mega kit','2-3 servo motors','Potentiometers for feedback','3D printer access','Aluminum rods','Fasteners'],phases:[{t:'Week 1: Design',d:['Sketch arm geometry (2-joint minimum)','Design joint mechanisms','CAD complete arm assembly','Assembly drawing with all dimensions']},{t:'Weeks 2-3: Build',d:['3D-print or fabricate brackets','Assemble base structure','Mount servo motors at joints','Install potentiometers, test range of motion']},{t:'Weeks 4-5: Electronics',d:['Wire servos and potentiometers to Arduino','Write control code (servo sweep + feedback)','Test basic movements','Test accuracy: can arm return to same position?']},{t:'Week 6: Docs',d:['Complete all CAD files','Video demo of multi-joint movement','Write analysis of positioning accuracy']}],metrics:['Arm completes 3-joint movement sequence','Positioning within 5 degrees','Documentation of actual vs theoretical','Identified design limitations'],finding:'Servo specs promised 1 degree accuracy but arm achieved 5 degrees. Gear backlash in joint linkages was the limiting factor.'},
+{id:4,name:'Passive Mechanical Leverage System with Load Testing',diff:3,weeks:'3-4',cost:'$25-40',imp:8,tag:'Design a lifting device that maximizes mechanical advantage',learn:['Mechanical advantage','Load analysis','Material stress','Real-world constraints','Safety engineering'],mit:'Classic ME problem, real-world application (prosthetics, exoskeletons), data-driven testing vs theory',mat:['MRLESS/RANMEI gear kits','Aluminum angle/flat bar stock','Load cell HX711 module','Arduino UNO','Bolts, washers, bushings','Weights for testing'],phases:[{t:'Week 1: Design',d:['Problem: Lift 50 lbs with less than 25 lbs input','Sketch solutions (lever, pulley, hybrid)','Calculate theoretical mechanical advantage','CAD the chosen design']},{t:'Week 2: Build',d:['Cut and drill aluminum components','Assemble structure, test for rigidity','Verify mechanism moves smoothly']},{t:'Weeks 3-4: Testing',d:['Mount load cells on input and output points','Wire to Arduino, write data logging code','Progressive load testing (5, 10, 20, 50 lbs)','Calculate actual mechanical advantage, compare to theory']}],metrics:['Mechanical advantage achieves design goal','Force data for 5+ load levels','Efficiency calculated and explained','Identifies limiting factors'],finding:'Theory predicted 4:1 mechanical advantage, actual was 3.8:1 (95% efficiency). The 5% loss came from friction in the pivot bearing.'},
+{id:5,name:'Flywheel Energy Storage with Rotating Mass Optimization',diff:4,weeks:'4-5',cost:'$40-70',imp:9,tag:'Design a flywheel to store and release energy efficiently',learn:['Rotational inertia','Energy storage','Flywheel design','Material science','Advanced physics'],mit:'Advanced mechanical concepts, bridges to modern engineering (regenerative braking, flywheel batteries), real performance metrics',mat:['Arduino Mega kit','DC motor with gear reduction','3D printer for flywheels','Bearings and shafts','Brake system','Arduino power sensors'],phases:[{t:'Week 1: Theory and Design',d:['Research rotational inertia (moment of inertia)','Calculate flywheel design (diameter, mass, material)','CAD multiple flywheel designs','Choose optimal design based on calculations']},{t:'Weeks 2-3: Build and Controls',d:['3D-print or machine different flywheels','Build shaft assembly with bearings','Mount motor, test rotation smoothness','Wire motor to Arduino, add RPM sensor, build brake']},{t:'Weeks 4-5: Testing',d:['Spin flywheel to specific RPM, measure energy input','Coast with brake off, measure deceleration','Apply brake, measure energy dissipation','Collect data on 5+ different flywheel masses and geometries']}],metrics:['Measured inertia matches calculated within 10%','Energy storage efficiency greater than 80%','Complete testing of multiple designs','Clear energy transfer graph'],finding:'Predicted 500J for 2kg flywheel at 1000 RPM. Actual: 480J (96% efficiency). 4% loss from bearing friction and air resistance.'},
+{id:6,name:'Wind Turbine Blade Optimization with Testing',diff:4,weeks:'5-6',cost:'$50-100',imp:9,tag:'Design and test multiple blade geometries for optimal efficiency',learn:['Aerodynamics','Experimental design','Data visualization','Clean energy','Engineering methodology'],mit:'Real clean energy problem, systematic design methodology, experimental rigor, applicable to actual engineering challenges',mat:['Arduino kit','DC motor as generator','3D printer for blades','Fan or box fan','Propeller hub/shaft','Power meter','Load resistor'],phases:[{t:'Week 1: Research and Design',d:['Research airfoil shapes and blade pitch','Design 3 blade geometries (flat, curved, twisted)','CAD each design','Print prototype blades']},{t:'Weeks 2-3: Test Rig',d:['Build mounting frame for turbine','Mount motor as generator, connect Arduino power sensors','Build wind tunnel or calibrate wind source']},{t:'Weeks 4-6: Testing and Analysis',d:['Test each blade at multiple wind speeds','Measure power output at each wind speed','Collect 20+ data points per design','Calculate efficiency and create efficiency curves','Technical write-up with aerodynamic theory and final recommendations']}],metrics:['Efficiency for 3+ blade designs','20+ data points per design','Efficiency curves show clear differences','Analysis explains WHY one design is better'],finding:'Curved blade: 32% efficiency vs 18% for flat. The curve accelerates air over the surface, creating lift (not just drag).'}
+];
+
+function App(){
+ const [exp,setExp]=useState(null);
+ const [fd,setFd]=useState('all');
+ const [ft,setFt]=useState('all');
+ const [tab,setTab]=useState('projects');
+ const [ep,setEp]=useState({});
+ const filt=useMemo(()=>P.filter(p=>{
+  const dm=fd==='all'||p.diff===parseInt(fd);
+  const tm=ft==='all'||(ft==='1-3'&&parseInt(p.weeks)<=3)||(ft==='4-6'&&parseInt(p.weeks)>=4);
+  return dm&&tm;
+ }),[fd,ft]);
+ const badge=d=>({2:'bg-green-100 text-green-800',3:'bg-yellow-100 text-yellow-800',4:'bg-orange-100 text-orange-800'})[d];
+ const label=d=>({2:'Easy-Intermediate',3:'Intermediate',4:'Advanced'})[d];
+ return(
+  <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+   <div className="bg-gradient-to-r from-blue-900/50 to-purple-900/50 border-b border-blue-700">
+    <div className="max-w-5xl mx-auto px-6 py-8">
+     <p className="text-2xl font-bold text-white mb-3">Hey, Landon.</p>
+     <p className="text-slate-200 text-lg mb-2">I want you to know something: I believe in you. Not just as an engineer or student, but as a person.</p>
+     <p className="text-slate-200 text-lg mb-2">Whatever path you choose - MIT, mechanical engineering, or something completely different - I am here for you. I love you and I am proud of you for thinking big and working hard.</p>
+     <p className="text-slate-200 text-lg">This guide is my way of saying: I am thinking about your future, supporting your dreams, and always in your corner. No matter what happens, that will not change.</p>
+    </div>
+   </div>
+   <div className="border-b border-slate-700 bg-slate-900/70 sticky top-0 z-50">
+    <div className="max-w-5xl mx-auto px-6 py-5">
+     <h1 className="text-2xl font-bold text-white mb-1">Landon's Engineering Projects</h1>
+     <p className="text-slate-400 text-sm mb-4">Interactive project explorer for your MIT journey</p>
+     <div className="flex gap-1">
+      {['projects','guide'].map(t=><button key={t} onClick={()=>setTab(t)} className={'px-4 py-2 font-medium text-sm rounded-t '+(tab===t?'text-blue-400 border-b-2 border-blue-400':'text-slate-400 hover:text-slate-200')}>{t.charAt(0).toUpperCase()+t.slice(1)}</button>)}
+     </div>
+    </div>
+   </div>
+   <div className="max-w-5xl mx-auto px-6 py-10">
+    {tab==='projects'&&<div>
+     <div className="flex gap-4 mb-8">
+      <div><label className="block text-xs text-slate-400 mb-1">Difficulty</label>
+       <select value={fd} onChange={e=>setFd(e.target.value)} className="bg-slate-700 text-white rounded px-3 py-2 text-sm border border-slate-600">
+        <option value="all">All Levels</option><option value="2">Easy-Intermediate</option><option value="3">Intermediate</option><option value="4">Advanced</option>
+       </select></div>
+      <div><label className="block text-xs text-slate-400 mb-1">Duration</label>
+       <select value={ft} onChange={e=>setFt(e.target.value)} className="bg-slate-700 text-white rounded px-3 py-2 text-sm border border-slate-600">
+        <option value="all">All Durations</option><option value="1-3">1-3 Weeks</option><option value="4-6">4-6 Weeks</option>
+       </select></div>
+     </div>
+     <div className="space-y-3">
+      {filt.map(p=><div key={p.id} className="bg-slate-800 border border-slate-700 rounded-xl overflow-hidden hover:border-slate-500 transition-all">
+       <button onClick={()=>setExp(exp===p.id?null:p.id)} className="w-full px-6 py-5 flex items-start justify-between hover:bg-slate-700/30">
+        <div className="flex-1 text-left">
+         <h3 className="text-lg font-bold text-white mb-1">{p.name}</h3>
+         <p className="text-slate-400 text-sm mb-3">{p.tag}</p>
+         <div className="flex flex-wrap gap-2 items-center">
+          <span className={'px-3 py-1 rounded-full text-sm font-medium '+badge(p.diff)}>{label(p.diff)}</span>
+          <span className="text-slate-400 text-sm">{p.weeks} weeks</span>
+          <span className="text-slate-400 text-sm">{p.cost}</span>
+         </div>
+        </div>
+        <div className="ml-4 flex flex-col items-end gap-2">
+         <div className="flex gap-0.5">{[...Array(10)].map((_,i)=><div key={i} className={'h-2 w-2 rounded-full '+(i<p.imp?'bg-amber-400':'bg-gray-600')}/>)}</div>
+         <span className="text-slate-400 text-xs">{p.imp}/10 MIT appeal</span>
+         <span className="text-slate-500">{exp===p.id?'▲':'▼'}</span>
+        </div>
+       </button>
+       {exp===p.id&&<div className="border-t border-slate-700 px-6 py-6 bg-slate-800/50 space-y-5">
+        <div><h4 className="font-bold text-blue-400 mb-2">Why MIT Loves This</h4><p className="text-slate-300">{p.mit}</p></div>
+        <div><h4 className="font-bold text-green-400 mb-2">Skills You Will Learn</h4><div className="flex flex-wrap gap-2">{p.learn.map((s,i)=><span key={i} className="bg-slate-700 text-slate-200 px-3 py-1 rounded-full text-sm">{s}</span>)}</div></div>
+        <div><h4 className="font-bold text-purple-400 mb-3">Week-by-Week Timeline</h4>
+         <div className="space-y-2">{p.phases.map((ph,i)=><div key={i} className="bg-slate-700/50 rounded-lg overflow-hidden">
+          <button onClick={()=>setEp({...ep,[p.id+'-'+i]:!ep[p.id+'-'+i]})} className="w-full px-4 py-3 flex justify-between items-center hover:bg-slate-700">
+           <span className="font-medium text-slate-200 text-sm">{ph.t}</span><span className="text-slate-500">{ep[p.id+'-'+i]?'▲':'▼'}</span>
+          </button>
+          {ep[p.id+'-'+i]&&<div className="px-4 pb-3 border-t border-slate-600 pt-2 space-y-1">{ph.d.map((d,j)=><p key={j} className="text-sm text-slate-300">- {d}</p>)}</div>}
+         </div>)}</div>
+        </div>
+        <div><h4 className="font-bold text-orange-400 mb-2">What You Need</h4><div className="grid grid-cols-1 md:grid-cols-2 gap-1">{p.mat.map((m,i)=><p key={i} className="text-sm text-slate-300">- {m}</p>)}</div></div>
+        <div><h4 className="font-bold text-cyan-400 mb-2">Success Metrics</h4>{p.metrics.map((m,i)=><p key={i} className="text-sm text-slate-300">- {m}</p>)}</div>
+        <div className="bg-slate-700 rounded-lg p-4 border border-slate-600"><h4 className="font-bold text-white mb-2">Sample Finding</h4><p className="text-slate-300 text-sm italic">{p.finding}</p></div>
+       </div>}
+      </div>)}
+     </div>
+    </div>}
+    {tab==='guide'&&<div className="space-y-5">
+     <h2 className="text-2xl font-bold text-white">Getting Started Guide</h2>
+     {[{c:'from-blue-900/30 to-cyan-900/30 border-blue-800',t:'Step 1: Assess What You Have',s:['Find your Arduino kit (check the box or bag label)','Confirm it has: breadboard, jumper wires, LEDs, buttons, sensors','Read what tutorials came with it']},
+      {c:'from-purple-900/30 to-pink-900/30 border-purple-800',t:'Step 2: Pick Your First Project',s:['Browse the Projects tab above','Pick one that fits your realistic time commitment','Make sure you can afford the materials','Choose something that genuinely excites you']},
+      {c:'from-green-900/30 to-emerald-900/30 border-green-800',t:'Step 3: Build and Document',s:['Follow the week-by-week timeline','Take photos at every stage (failures too!)','Measure and record all test data','Write down what worked and what did not']},
+      {c:'from-orange-900/30 to-red-900/30 border-orange-800',t:'Step 4: Make It MIT-Worthy',s:['Show your calculations and thinking','Create graphs from your data','Write what you would do differently next time','Explain what did not work and why']}
+     ].map((s,i)=><div key={i} className={'bg-gradient-to-r '+s.c+' border rounded-xl p-6'}>
+      <h3 className="font-bold text-white text-lg mb-3">{s.t}</h3>
+      {s.s.map((st,j)=><p key={j} className="text-slate-200 mb-1">- {st}</p>)}
+     </div>)}
+     <div className="bg-slate-700 rounded-xl p-6 border border-slate-600">
+      <h3 className="font-bold text-white text-lg mb-3">The Key MIT Insight</h3>
+      <p className="text-slate-300 mb-3">MIT does not care if your project is perfect. They care if you:</p>
+      {['Showed your thinking process','Measured real data','Identified what did not work and why','Explained your design choices','Demonstrated a growth mindset'].map((s,i)=><p key={i} className="text-slate-300">- {s}</p>)}
+      <p className="text-slate-400 italic mt-4">A 2-week pulley system with perfect documentation beats a 6-week wind turbine that just works.</p>
+     </div>
+    </div>}
+   </div>
+   <div className="border-t border-slate-700 mt-12 py-8 text-center text-slate-500">
+    <p>Built with love for Landon's MIT journey</p>
+    <p className="text-sm mt-1">Made by your parent who believes in you</p>
+   </div>
+  </div>
+ );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
