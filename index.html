@@ -8,10 +8,16 @@
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+// Force Babel's classic JSX runtime. Newer @babel/standalone builds default to the
+// automatic runtime, which emits an ES "import" that breaks this no-build CDN setup
+// (blank page). Registering a classic-runtime preset keeps it working on any version.
+Babel.registerPreset('react-classic', { presets: [[Babel.availablePresets.react, { runtime: 'classic' }]] });
+</script>
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel">
+<script type="text/babel" data-presets="react-classic">
 const {useState,useMemo}=React;
 const P=[
 {id:1,name:'Belt-Driven Power Transmission System',diff:2,weeks:'2-3',cost:'$15-20',imp:6,tag:'Measure mechanical advantage and efficiency losses',learn:['Mechanical advantage','Friction losses','Energy transfer','Measurement','Data analysis'],mit:'Shows real mechanical losses, scientific method, quantitative measurements beat pretty designs',mat:['MRLESS Pulley/Belt Kit','Arduino + force sensor','Aluminum angle stock','Wood base','Bolts and bearings'],phases:[{t:'Week 1: Design',d:['Sketch design, identify pulley mounting points','CAD sketch in Fusion 360 (free for students)','Understand mechanical advantage ratios','Document: Save CAD files']},{t:'Week 2: Build',d:['Cut/assemble frame','Mount pulleys, thread belts','Mount load cell sensor and Arduino circuit','Test for smooth operation']},{t:'Week 3: Testing',d:['Measure mechanical advantage vs different pulley ratios','Calculate efficiency percentage','Document findings, identify friction sources','Complete efficiency curve']}],metrics:['Measurements within 5% of theoretical','Efficiency for 3+ configurations','Photo/video documentation','Written analysis'],finding:'Using 1:3 pulley ratio, theoretical mechanical advantage = 3.0. Testing showed 2.7, representing 90% actual efficiency.'},
