@@ -9,8 +9,9 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script>
-// Force Babel classic JSX runtime; newer @babel/standalone defaults to the automatic
-// runtime which emits an ES import that breaks this no-build CDN page (blank screen).
+// Force Babel's classic JSX runtime. Newer @babel/standalone builds default to the
+// automatic runtime, which emits an ES "import" that breaks this no-build CDN setup
+// (blank page). Registering a classic-runtime preset keeps it working on any version.
 Babel.registerPreset('react-classic', { presets: [[Babel.availablePresets.react, { runtime: 'classic' }]] });
 </script>
 </head>
